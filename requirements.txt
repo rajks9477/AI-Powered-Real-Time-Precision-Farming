@@ -13,6 +13,5 @@ Pillow==12.1.1
 # Optional - only needed for real-image disease detection (CNN inference).
 # The app runs fully without these; disease detection will show a friendly
 # notice until you install them and add the trained weights file.
-torch==2.4.1
-torchvision==0.19.1
+
 gunicorn==23.0.0
