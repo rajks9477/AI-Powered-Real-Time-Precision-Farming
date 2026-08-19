@@ -29,7 +29,11 @@ app.config.from_object(Config)
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 os.makedirs(os.path.join(os.path.dirname(__file__), "instance"), exist_ok=True)
 
+
 db = SQLAlchemy(app)
+
+with app.app_context():
+    db.create_all()
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -454,6 +458,4 @@ def community():
 
 # ----------------------------------------------------------------------------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
