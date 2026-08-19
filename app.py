@@ -31,9 +31,14 @@ os.makedirs(os.path.join(os.path.dirname(__file__), "instance"), exist_ok=True)
 
 db = SQLAlchemy(app)
 
-# FIX: Yeh line database tables ko production (Render) par start hote hi create kar degi
+# DEBUG & FIX: Print database URI and ensure tables are created on startup
+print("--------------------------------------------------")
+print("DATABASE URI:", app.config.get("SQLALCHEMY_DATABASE_URI"))
+print("--------------------------------------------------")
+
 with app.app_context():
     db.create_all()
+    print("Database tables created/verified successfully!")
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
