@@ -29,10 +29,7 @@ app.config.from_object(Config)
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 os.makedirs(os.path.join(os.path.dirname(__file__), "instance"), exist_ok=True)
 
-
 db = SQLAlchemy(app)
-
-
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -78,22 +75,7 @@ class CommunityPost(db.Model):
     farmer_name = db.Column(db.String(120))
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-class CommunityPost(db.Model):
-    __tablename__ = "community_posts"
-    id = db.Column(db.Integer, primary_key=True)
-    farmer_id = db.Column(db.Integer, db.ForeignKey("farmers.id"), nullable=False)
-    farmer_name = db.Column(db.String(120))
-    content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-
-with app.app_context():
-    db.create_all()
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return Farmer.query.get(int(user_id))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -472,4 +454,6 @@ def community():
 
 # ----------------------------------------------------------------------------
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
