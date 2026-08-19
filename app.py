@@ -38,7 +38,13 @@ print("--------------------------------------------------")
 
 with app.app_context():
     db.create_all()
-    print("Database tables created/verified successfully!")
+    # Check if table exists, if not create explicitly
+    inspector = db.inspect(db.engine)
+    if "farmers" not in inspector.get_table_names():
+        db.create_all()
+        print("Forced table creation executed!")
+    else:
+        print("Farmers table already exists.")
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
