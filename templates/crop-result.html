@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Result - Crop Recommendation{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="card result-hero" style="max-width:640px; margin:0 auto;">
+    <span class="eyebrow">Recommended crop</span>
+    <div class="result-badge">{{ prediction | capitalize }}</div>
+    <p>Confidence: <strong>{{ confidence }}%</strong></p>
+    <div class="confidence-bar-track" style="max-width:320px; margin:0 auto 20px;">
+      <div class="confidence-bar-fill" style="width:{{ confidence }}%;"></div>
+    </div>
+
+    <h3 style="margin-top:30px;">Other close matches</h3>
+    <table class="log-table">
+      <thead><tr><th>Crop</th><th>Match</th></tr></thead>
+      <tbody>
+        {% for crop_name, pct in top3 %}
+        <tr><td>{{ crop_name | capitalize }}</td><td class="mono">{{ pct }}%</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="margin-top:28px; display:flex; gap:12px; justify-content:center;">
+      <a href="{{ url_for('fertilizer') }}?crop={{ prediction }}" class="btn btn-accent">Get fertilizer plan for {{ prediction | capitalize }}</a>
+      <a href="{{ url_for('crop') }}" class="btn btn-outline">Try again</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

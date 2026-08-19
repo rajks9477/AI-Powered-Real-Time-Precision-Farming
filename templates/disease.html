@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Disease Detection - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="card form-card">
+    <h2 class="form-title">Detect a crop disease</h2>
+    <p class="form-sub">Upload a clear, close-up photo of the affected leaf.</p>
+    <form method="POST" enctype="multipart/form-data">
+      <div id="upload-drop" class="upload-drop">
+        <p><strong>Click to upload</strong> or drag a leaf photo here</p>
+        <p class="field-hint">PNG or JPG, one leaf per photo, good lighting</p>
+        <input type="file" id="image-input" name="image" accept="image/png, image/jpeg" style="display:none;">
+      </div>
+      <img id="image-preview" class="preview-img" style="display:none;">
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Analyze leaf</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

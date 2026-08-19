@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Fertilizer Recommendation - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="card form-wide">
+    <h2 class="form-title">Fertilizer recommendation</h2>
+    <p class="form-sub">Tell us your crop and current soil NPK to get a correction plan.</p>
+    <form method="POST">
+      <div class="field">
+        <label for="crop_name">Crop</label>
+        <input type="text" id="crop_name" name="crop_name" required
+               value="{{ request.args.get('crop', '') }}" placeholder="e.g. rice, cotton, banana">
+      </div>
+      <div class="grid grid-2">
+        <div class="field">
+          <label for="nitrogen">Current Nitrogen - N</label>
+          <input type="number" step="0.1" id="nitrogen" name="nitrogen" required>
+        </div>
+        <div class="field">
+          <label for="phosphorus">Current Phosphorus - P</label>
+          <input type="number" step="0.1" id="phosphorus" name="phosphorus" required>
+        </div>
+        <div class="field" style="grid-column:1/-1;">
+          <label for="potassium">Current Potassium - K</label>
+          <input type="number" step="0.1" id="potassium" name="potassium" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Get recommendation</button>
+    </form>
+  </div>
+
+  {% if show_result and result %}
+  <div class="card form-wide" style="margin-top:24px;">
+    <h3>Plan for {{ result.crop | capitalize }}</h3>
+    <p class="field-hint">Ideal levels for this crop — N: {{ result.ideal.N }}, P: {{ result.ideal.P }}, K: {{ result.ideal.K }} (kg/ha)</p>
+    {% for r in result.results %}
+    <div class="nutrient-row">
+      <div class="nutrient-dial dial-{{ r.status }}">{{ r.nutrient }}</div>
+      <div>
+        <strong>{{ r.title }}</strong>
+        <p style="margin:4px 0 0; color:var(--soil-soft); font-size:.92rem;">{{ r.advice }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+Flask==3.1.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+Werkzeug==3.1.7
+python-dotenv==1.0.1
+requests==2.32.3
+numpy==2.4.4
+pandas==3.0.2
+scikit-learn==1.8.0
+joblib==1.5.3
+Pillow==12.1.1
+
+# Optional - only needed for real-image disease detection (CNN inference).
+# The app runs fully without these; disease detection will show a friendly
+# notice until you install them and add the trained weights file.
+torch==2.4.1
+torchvision==0.19.1
+gunicorn==23.0.0

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section">
+  <h1>Namaste, {{ current_user.name }} 👋</h1>
+  <p style="color:var(--soil-soft); margin-bottom:32px;">Here's a snapshot of your farm activity.</p>
+
+  <div class="grid grid-4" style="margin-bottom:40px;">
+    <div class="card stat-card">
+      <div class="stat-num">{{ stats.crop_queries }}</div>
+      <div class="stat-label">Crop checks</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-num">{{ stats.fertilizer_queries }}</div>
+      <div class="stat-label">Fertilizer checks</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-num">{{ stats.disease_queries }}</div>
+      <div class="stat-label">Disease scans</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-num">{{ stats.soil_queries }}</div>
+      <div class="stat-label">Soil checks</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:40px;">
+    <h3>Local weather</h3>
+    <form id="weather-form" class="field" style="display:flex; gap:10px; align-items:flex-end;">
+      <div style="flex:1;">
+        <label for="weather-city">City</label>
+        <input type="text" id="weather-city" placeholder="e.g. Bhubaneswar">
+      </div>
+      <button type="submit" class="btn btn-primary">Check</button>
+    </form>
+    <div id="weather-result" style="margin-top:16px;"></div>
+  </div>
+
+  <div class="card">
+    <h3>Recent activity</h3>
+    {% if logs %}
+    <table class="log-table">
+      <thead><tr><th>Type</th><th>Input</th><th>Result</th><th>Date</th></tr></thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td><span class="badge badge-{{ log.activity_type }}">{{ log.activity_type }}</span></td>
+          <td class="mono">{{ log.input_summary }}</td>
+          <td>{{ log.result_summary }}</td>
+          <td>{{ log.created_at.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color:var(--soil-soft);">No activity yet — try a crop, fertilizer or disease check to see it here.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

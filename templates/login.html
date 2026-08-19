@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Log in - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card form-card">
+    <h2 class="form-title">Welcome back</h2>
+    <p class="form-sub">Log in to see your dashboard and past reports.</p>
+    <form method="POST">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
+    <p class="form-foot">New to ArogyaKrishi? <a href="{{ url_for('signup') }}">Create an account</a></p>
+  </div>
+</div>
+{% endblock %}

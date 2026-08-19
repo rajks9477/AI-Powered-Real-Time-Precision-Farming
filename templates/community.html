@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Community - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section">
+  <h1>Farmer community</h1>
+  <p style="color:var(--soil-soft); margin-bottom:24px;">Share what's working on your field, ask questions, learn from others.</p>
+
+  <div class="card" style="margin-bottom:32px;">
+    <form method="POST">
+      <div class="field">
+        <label for="content">Share an update or question</label>
+        <textarea id="content" name="content" rows="3" required placeholder="e.g. Neem oil worked well against aphids on my cotton this week..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+  </div>
+
+  {% for post in posts %}
+  <div class="card post-card">
+    <div class="post-meta">{{ post.farmer_name }} · {{ post.created_at.strftime('%d %b %Y, %H:%M') }}</div>
+    <p style="margin:0;">{{ post.content }}</p>
+  </div>
+  {% else %}
+  <p style="color:var(--soil-soft);">No posts yet. Be the first to share!</p>
+  {% endfor %}
+</div>
+{% endblock %}

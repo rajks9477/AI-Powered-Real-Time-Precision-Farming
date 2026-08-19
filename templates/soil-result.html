@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Result - Soil Type{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="grid grid-2" style="max-width:900px; margin:0 auto; align-items:start;">
+    <div class="card">
+      <img src="data:image/jpeg;base64,{{ image_b64 }}" class="preview-img" alt="Uploaded soil photo">
+    </div>
+    <div class="card">
+      <span class="eyebrow">Estimated soil type</span>
+      <h2>{{ profile.label }}</h2>
+      <p>{{ profile.why }}</p>
+
+      <h3>Good crops for this soil</h3>
+      <p>{{ profile.good_for | join(', ') | capitalize }}</p>
+
+      <h3>Care tip</h3>
+      <p>{{ profile.care }}</p>
+
+      <div class="flash flash-error" style="margin-top:10px;">{{ profile.confidence_note }}</div>
+
+      <a href="{{ url_for('crop') }}" class="btn btn-accent" style="margin-top:16px;">Get exact crop recommendation</a>
+      <a href="{{ url_for('soil') }}" class="btn btn-outline" style="margin-top:16px;">Try another photo</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}ArogyaKrishi - Smart Farming Assistant{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-furrows"></div>
+  <div class="hero-inner">
+    <span class="eyebrow">Claude Hackathon · Agri-Tech</span>
+    <h1>Healthy crops start with the right information, at the right time.</h1>
+    <p class="lede">ArogyaKrishi reads your soil, your sky and your leaves — then tells you what to plant,
+      what to feed it, and what's making it sick, in your own language.</p>
+    <div class="hero-cta">
+      <a href="{{ url_for('disease') }}" class="btn btn-primary">Detect a crop disease</a>
+      <a href="{{ url_for('crop') }}" class="btn btn-outline">Get a crop recommendation</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 style="text-align:center; margin-bottom:8px;">Three tools, one field visit</h2>
+    <p style="text-align:center; color:var(--soil-soft); max-width:560px; margin:0 auto 40px;">
+      Everything a farmer needs before, during and after sowing.
+    </p>
+    <div class="grid grid-3">
+      <div class="card feature-card">
+        <span class="feature-icon">🌱</span>
+        <h3>Crop Recommendation</h3>
+        <p>Enter your soil's N-P-K, pH, temperature, humidity and rainfall — get the crop most likely to thrive.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">🧪</span>
+        <h3>Fertilizer Guidance</h3>
+        <p>We compare your soil test against your crop's ideal nutrient levels and tell you exactly what to correct.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">🔍</span>
+        <h3>Disease Detection</h3>
+        <p>Upload a photo of an affected leaf. Our model identifies the disease and gives a treatment plan.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">🟫</span>
+        <h3>Soil Type Detection</h3>
+        <p>Upload a photo of your bare soil - we estimate the soil type and which crops suit it best.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">☁️</span>
+        <h3>Weather Insights</h3>
+        <p>Live local weather to help you plan irrigation, spraying and harvesting.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">🗣️</span>
+        <h3>Multilingual</h3>
+        <p>Use ArogyaKrishi in Hindi, Bengali, Tamil, Telugu, Marathi and more with one click.</p>
+      </div>
+      <div class="card feature-card">
+        <span class="feature-icon">🤝</span>
+        <h3>Farmer Community</h3>
+        <p>Share what worked on your field and learn from farmers facing similar conditions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--paper-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container" style="text-align:center;">
+    <h2>Ready to check your field?</h2>
+    <p style="color:var(--soil-soft); margin-bottom:24px;">Create a free account to track every recommendation and disease report over time.</p>
+    <a href="{{ url_for('signup') }}" class="btn btn-accent">Create your farmer account</a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Sign up - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card form-card">
+    <h2 class="form-title">Create your account</h2>
+    <p class="form-sub">Track your recommendations and disease reports over every season.</p>
+    <form method="POST">
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+      <div class="field">
+        <label for="location">Village / District</label>
+        <input type="text" id="location" name="location">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+    </form>
+    <p class="form-foot">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Something needs your attention - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section" style="text-align:center;">
+  <div class="card form-card">
+    <span class="feature-icon">⚠️</span>
+    <h2>We couldn't complete that</h2>
+    <p style="color:var(--soil-soft);">{{ message }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Back to home</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Result - Disease Detection{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="grid grid-2" style="max-width:900px; margin:0 auto; align-items:start;">
+    <div class="card">
+      <img src="data:image/jpeg;base64,{{ image_b64 }}" class="preview-img" alt="Uploaded leaf">
+    </div>
+    <div class="card">
+      <span class="eyebrow">{{ crop_name }}</span>
+      <h2>{{ disease_name if disease_name else "Healthy" }}</h2>
+      <p>Confidence: <strong>{{ confidence }}%</strong></p>
+      <div class="confidence-bar-track" style="margin-bottom:20px;">
+        <div class="confidence-bar-fill" style="width:{{ confidence }}%;"></div>
+      </div>
+      <h3>Cause</h3>
+      <p>{{ info.cause }}</p>
+      <h3>Symptoms</h3>
+      <p>{{ info.symptoms }}</p>
+      <h3>Treatment</h3>
+      <p>{{ info.treatment }}</p>
+      <a href="{{ url_for('disease') }}" class="btn btn-outline">Scan another leaf</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

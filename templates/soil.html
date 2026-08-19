@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Soil Type Detection - ArogyaKrishi{% endblock %}
+{% block content %}
+<div class="container section">
+  <div class="card form-card">
+    <h2 class="form-title">Detect your soil type</h2>
+    <p class="form-sub">Upload a clear photo of bare, slightly moist soil (no plants/leaves) for the best estimate.</p>
+    <form method="POST" enctype="multipart/form-data">
+      <div id="upload-drop" class="upload-drop">
+        <p><strong>Click to upload</strong> or drag a soil photo here</p>
+        <p class="field-hint">PNG or JPG, taken in daylight, close-up of soil</p>
+        <input type="file" id="image-input" name="image" accept="image/png, image/jpeg" style="display:none;">
+      </div>
+      <img id="image-preview" class="preview-img" style="display:none;">
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Analyze soil</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
