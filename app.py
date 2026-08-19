@@ -31,6 +31,10 @@ os.makedirs(os.path.join(os.path.dirname(__file__), "instance"), exist_ok=True)
 
 db = SQLAlchemy(app)
 
+# FIX: Yeh line database tables ko production (Render) par start hote hi create kar degi
+with app.app_context():
+    db.create_all()
+
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message = "Please log in to access this page."
@@ -215,7 +219,7 @@ def crop():
 
         if crop_model is None:
             return render_template("try_again.html",
-                                    message="Crop recommendation model not found. Run notebooks/train_crop_model.py first.")
+                                   message="Crop recommendation model not found. Run notebooks/train_crop_model.py first.")
 
         features = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
         prediction = crop_model.predict(features)[0]
@@ -226,10 +230,10 @@ def crop():
         top3 = [(crop_model.classes_[i], round(probabilities[i] * 100, 2)) for i in top3_idx]
 
         log_activity("crop", f"N{N} P{P} K{K} T{temperature} H{humidity} pH{ph} R{rainfall}",
-                      f"{prediction} ({confidence}%)")
+                     f"{prediction} ({confidence}%)")
 
         return render_template("crop-result.html", prediction=prediction,
-                                confidence=confidence, top3=top3)
+                               confidence=confidence, top3=top3)
 
     return render_template("crop.html")
 
@@ -251,7 +255,7 @@ def fertilizer():
 
         result = recommend_fertilizer(crop_name, N, P, K)
         log_activity("fertilizer", f"{crop_name} N{N} P{P} K{K}",
-                      ", ".join(r["status"] for r in result["results"]))
+                     ", ".join(r["status"] for r in result["results"]))
 
         return render_template("fertilizer.html", result=result, show_result=True)
 
@@ -285,7 +289,6 @@ def disease():
     ai_result = diagnose_leaf_image(image_bytes, hf_token)
 
     if ai_result:
-        # AI vision model succeeded - it can identify ANY crop/disease, not limited to a fixed list
         crop_name = str(ai_result.get("crop", "Unknown")).strip()
         is_healthy = bool(ai_result.get("healthy"))
         disease_name = "" if is_healthy else str(ai_result.get("disease", "")).strip()
@@ -308,7 +311,6 @@ def disease():
             image_b64=image_b64,
         )
 
-    # Fallback: local ResNet9 model, only if you've downloaded plant_disease_model.pth yourself
     if disease_model is not None and predict_image is not None:
         label, confidence = predict_image(image_bytes, disease_model, disease_classes)
         label = normalize_label(label)
@@ -325,13 +327,12 @@ def disease():
             image_b64=image_b64,
         )
 
-    # Nothing available
     return render_template(
         "try_again.html",
         message=("Couldn't reach the disease detection service. Double-check that "
-                  "HUGGINGFACE_LOGIN_TOKEN in your .env is a valid, FINE-GRAINED token with "
-                  "'Make calls to Inference Providers' permission, and that you have an internet "
-                  "connection. Run `python test_hf.py` in your terminal to see the exact error."),
+                 "HUGGINGFACE_LOGIN_TOKEN in your .env is a valid token with "
+                 "'Make calls to Inference Providers' permission, and that you have an internet "
+                 "connection."),
     )
 
 
@@ -400,7 +401,7 @@ def api_weather():
 
 
 # ----------------------------------------------------------------------------
-# Simple multilingual rule-based chatbot (works offline, no external API needed)
+# Chatbot
 # ----------------------------------------------------------------------------
 CHATBOT_RULES = [
     (["disease", "bimari", "rog"], "Go to the 'Disease Detection' page and upload a clear photo of the affected leaf - I'll identify the disease and suggest treatment."),
@@ -416,21 +417,18 @@ def api_chatbot():
     raw_message = (request.json or {}).get("message", "")
     message = raw_message.lower()
 
-    # 1) Try the free hosted LLM first so the bot can answer ANY question, not just fixed keywords
     hf_token = app.config["HUGGINGFACE_LOGIN_TOKEN"]
     ai_reply = ask_chatbot(raw_message, hf_token) if raw_message.strip() else None
     if ai_reply:
         return jsonify({"reply": ai_reply, "source": "ai"})
 
-    # 2) Fallback: fixed keyword rules (works even with no token / no internet)
     for keywords, reply in CHATBOT_RULES:
         if any(k in message for k in keywords):
             return jsonify({"reply": reply, "source": "rule"})
 
     return jsonify({
         "reply": ("I can help with crop disease detection, crop recommendation, fertilizer advice, "
-                  "soil type and weather. For open-ended questions, add a free HUGGINGFACE_LOGIN_TOKEN "
-                  "to your .env file so I can answer anything - right now I can only match a few keywords."),
+                  "soil type and weather."),
         "source": "rule",
     })
 
@@ -454,6 +452,4 @@ def community():
 
 # ----------------------------------------------------------------------------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
